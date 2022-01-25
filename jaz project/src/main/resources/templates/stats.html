@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Statistics</title>
+</head>
+<body>
+
+
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Stats</title>
+    <link th:rel="stylesheet" th:href="@{assets/bootstrap-datepicker/css/bootstrap-datepicker.css}"/>
+    <link th:rel="stylesheet" th:href="@{assets/bootstrap-datepicker/css/bootstrap-datepicker.standalone.css}"/>
+    <link th:rel="stylesheet" th:href="@{webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
+    <link th:rel="stylesheet" th:href="@{webjars/font-awesome/5.11.2/css/all.css} "/>
+    <link th:href="@{static/css/main.css}" rel="stylesheet" />
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+          crossorigin="anonymous">
+</head>
+<style>
+    .info {
+        position:absolute;
+        left: 0px;
+        top: 150px;
+        width: 600px;
+    }
+    .info2 {
+        position:absolute;
+        left: 10px;
+        top: 440px;
+        width: 1200px:
+    }
+    .lb3 {
+        position:absolute;
+        left: 10px;
+        top: 350px;
+        width: 600px;
+    }
+        .info3 {
+        position:absolute;
+        left: 10px;
+        top: 180px;
+        width: 600px;
+    }
+        .lb4 {
+        position:absolute;
+        left: 180px;
+        top: 350px;
+        width: 600px;
+    }
+        .info4 {
+        position:absolute;
+        left: 190px;
+        top: 180px;
+        width: 600px;
+    }
+            .lb5 {
+        position:absolute;
+        left: 370px;
+        top: 350px;
+        width: 600px;
+    }
+        .info5 {
+        position:absolute;
+        left: 370px;
+        top: 180px;
+        width: 600px;
+    }
+            .lb6 {
+        position:absolute;
+        left: 550px;
+        top: 350px;
+        width: 600px;
+    }
+            .info6 {
+        position:absolute;
+        left: 550px;
+        top: 180px;
+        width: 600px;
+    }
+    .img1 {
+    position:absolute;
+    left: 0px;
+    top: 500px
+    }
+        .img2 {
+    position:absolute;
+    left: 320px;
+    top: 500px
+    }
+        .tab1 {
+    position:absolute;
+    left: 0px;
+    top: 1000px
+    }
+        .tab2 {
+    position:absolute;
+    left: 0px;
+    top: 1150px
+    }
+</style>
+<body>
+<script>
+   function popupCalendar(id)
+    {
+      var dateField = document.getElementById(id); // toggle the div
+      if (dateField.style.display == 'none')
+        dateField.style.display = 'block';
+      else dateField.style.display = 'none';
+
+     }
+function sortTable(n) {
+  var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+  table = document.getElementById("callstable");
+  switching = true;
+  // Set the sorting direction to ascending:
+  dir = "asc";
+  /* Make a loop that will continue until
+  no switching has been done: */
+  while (switching) {
+    // Start by saying: no switching is done:
+    switching = false;
+    rows = table.rows;
+    /* Loop through all table rows (except the
+    first, which contains table headers): */
+    for (i = 1; i < (rows.length - 1); i++) {
+      // Start by saying there should be no switching:
+      shouldSwitch = false;
+      /* Get the two elements you want to compare,
+      one from current row and one from the next: */
+      x = rows[i].getElementsByTagName("TD")[n];
+      y = rows[i + 1].getElementsByTagName("TD")[n];
+      /* Check if the two rows should switch place,
+      based on the direction, asc or desc: */
+      if (dir == "asc") {
+        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+          // If so, mark as a switch and break the loop:
+          shouldSwitch = true;
+          break;
+        }
+      } else if (dir == "desc") {
+        if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+          // If so, mark as a switch and break the loop:
+          shouldSwitch = true;
+          break;
+        }
+      }
+    }
+    if (shouldSwitch) {
+      /* If a switch has been marked, make the switch
+      and mark that a switch has been done: */
+      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+      switching = true;
+      // Each time a switch is done, increase this count by 1:
+      switchcount ++;
+    } else {
+      /* If no switching has been done AND the direction is "asc",
+      set the direction to "desc" and run the while loop again. */
+      if (switchcount == 0 && dir == "asc") {
+        dir = "desc";
+        switching = true;
+      }
+    }
+  }
+}
+datepicker(){
+    autoclose: true,
+    todayHighlight: true
+};
+</script>
+<nav class="navbar navbar-expand-md bg-dark navbar-dark">
+    <!-- Brand -->
+    <a class="navbar-brand" href="#">Customer Service Statistics</a>
+
+    <!-- Toggler/collapsibe Button -->
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Navbar links -->
+    <div class="collapse navbar-collapse" id="collapsibleNavbar">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/callsLive}">Live Calls</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/database}">Database</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/stats}">Statistics and KPI's</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class ="container">
+    <div class = "row">
+        <h1> Statistics and KPI's </h1>
+    </div>
+    <div class="img1">
+    <img th:src="${stats.getB64}" /></div>
+    <div class="img2">
+    <img  th:src="${stats.getB65}" /></div>
+    <div class="info">
+        <table id = "callstable2" class = "table table-striped table-bordered">
+            <form action="#" th:action="@{/stats}" th:object = "${filters}" method="post">
+                <tr>
+                    <th><label>Set Status:</label></th>
+                    <th><label>Customer Number: </label></th>
+                    <th><label>Client Number: </label></th>
+                </tr>
+                <tbody>
+                <tr>
+                    <td><select th:field="*{Status}" >
+                        <option value=""> - </option>
+                        <option value="No-answer">No-answer</option>
+                        <option value="Completed">Completed</option>
+                        <option value="Busy">Busy</option>
+                        <option value="In Progress">In Progress</option>
+                    </select></td>
+                    <td><input type="text" th:field="*{CustomerNumber}" /></td>
+                    <td><input type="text" th:field="*{ClientNumber}" /></td>
+                </tr>
+                <tr>
+                    <td>
+                        <button type="submit" name="action" value="stats">Filter</button>
+                    </td>
+                </tr>
+                <div class="info3">
+                    <div class="col-md-4 mt-5">
+                        <div class="input-group date" onclick="datepicker()">
+                            <input type="text" class="form-control" id="sdf" autocomplete="off" th:field="*{StartDateFrom}"/>
+                            <div class="input-group-append">
+                                <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="info4">
+                    <div class="col-md-4 mt-5">
+                        <div class="input-group date" onclick="datepicker()">
+                            <input type="text" class="form-control" id="sdt" autocomplete="off" th:field="*{StartDateTo}"/>
+                            <div class="input-group-append">
+                                <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="info5">
+                    <div class="col-md-4 mt-5">
+                        <div class="input-group date" onclick="datepicker()">
+                            <input type="text" class="form-control" id="ef" autocomplete="off" th:field="*{EndDateFrom}"/>
+                            <div class="input-group-append">
+                                <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="info6">
+                    <div class="col-md-4 mt-5">
+                        <div class="input-group date" onclick="datepicker()">
+                            <input onclick="datepicker()" type="text" class="form-control" id="eto" autocomplete="off" th:field="*{EndDateTo}"/>
+                            <div class="input-group-append">
+                                <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </tbody>
+            </form>
+        </table>
+    </div>
+    <div class="lb3"><label>Start Date From</label></div>
+    <div class="lb4"><label>Start Date To</label></div>
+    <div class="lb5"><label>End Date From</label></div>
+    <div class="lb6"><label>End Date To</label></div>
+</div>
+<div class="tab1">
+<table id = "callstable" class = "table table-striped table-bordered">
+    <thead class = "table-dark">
+    <tr>
+        <th onclick="sortTable(0)"> Average Duration </th>
+        <th onclick="sortTable(1)"> Average Queue </th>
+        <th onclick="sortTable(3)"> Success Rate </th>
+        <th onclick="sortTable(4)"> Failure Rate </th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr>
+        <td th:text = "${stats.getAvgDuration() }"></td>
+        <td th:text = "${stats.getAvgQueue()}"></td>
+        <td th:text = "${stats.getSuccessRate()}"></td>
+        <td th:text = "${stats.getFailureRate()}"></td>
+    </tr>
+    </tbody>
+</table>
+</div>
+<div class="tab2">
+<table id = "callstable3" class = "table table-striped table-bordered">
+    <thead class = "table-dark">
+    <tr>
+        <th onclick="sortTable(0)"> All </th>
+        <th onclick="sortTable(1)"> Completed </th>
+        <th onclick="sortTable(2)"> Queued </th>
+        <th onclick="sortTable(3)"> No-Answer </th>
+        <th onclick="sortTable(4)"> Busy </th>
+        <th onclick="sortTable(5)"> In progress </th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr>
+        <td th:text = "${stats.getList().size()}"></td>
+        <td th:text = "${stats.getCountcompleted()}"></td>
+        <td th:text = "${stats.getCountqueued()}"></td>
+        <td th:text = "${stats.getCountnoanswer()}"></td>
+        <td th:text = "${stats.getCountbusy()}"></td>
+        <td th:text = "${stats.getCountinprogress()}"></td>
+    </tr>
+    </tbody>
+
+</table>
+</div>
+</body>
+</html>
+</body>
+</html>
+

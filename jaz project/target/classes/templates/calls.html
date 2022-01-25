@@ -1,0 +1,161 @@
+
+
+<!DOCTYPE html>
+<meta http-equiv="refresh" content="3">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Twilio live monitor</title>
+    <link th:href="@{static/css/main.css}" rel="stylesheet" />
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+          crossorigin="anonymous">
+</head>
+<style>
+    .info {
+        position:absolute;
+        left: 5px;
+        top: 150px;
+    }
+    .info2 {
+        position:absolute;
+        left: 320px;
+        top: 150px;
+    }
+</style>
+<body>
+<script>
+function sortTable(n) {
+  var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+  table = document.getElementById("callstable");
+  switching = true;
+  // Set the sorting direction to ascending:
+  dir = "asc";
+  /* Make a loop that will continue until
+  no switching has been done: */
+  while (switching) {
+    // Start by saying: no switching is done:
+    switching = false;
+    rows = table.rows;
+    /* Loop through all table rows (except the
+    first, which contains table headers): */
+    for (i = 1; i < (rows.length - 1); i++) {
+      // Start by saying there should be no switching:
+      shouldSwitch = false;
+      /* Get the two elements you want to compare,
+      one from current row and one from the next: */
+      x = rows[i].getElementsByTagName("TD")[n];
+      y = rows[i + 1].getElementsByTagName("TD")[n];
+      /* Check if the two rows should switch place,
+      based on the direction, asc or desc: */
+      if (dir == "asc") {
+        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+          // If so, mark as a switch and break the loop:
+          shouldSwitch = true;
+          break;
+        }
+      } else if (dir == "desc") {
+        if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+          // If so, mark as a switch and break the loop:
+          shouldSwitch = true;
+          break;
+        }
+      }
+    }
+    if (shouldSwitch) {
+      /* If a switch has been marked, make the switch
+      and mark that a switch has been done: */
+      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+      switching = true;
+      // Each time a switch is done, increase this count by 1:
+      switchcount ++;
+    } else {
+      /* If no switching has been done AND the direction is "asc",
+      set the direction to "desc" and run the while loop again. */
+      if (switchcount == 0 && dir == "asc") {
+        dir = "desc";
+        switching = true;
+      }
+    }
+  }
+}
+</script>
+<nav class="navbar navbar-expand-md bg-dark navbar-dark">
+    <!-- Brand -->
+    <a class="navbar-brand" href="#">Customer Service Live Monitor</a>
+
+    <!-- Toggler/collapsibe Button -->
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Navbar links -->
+    <div class="collapse navbar-collapse" id="collapsibleNavbar">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/callsLive}">Live Calls</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/database}">Database</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/stats}">Statistics and KPI's</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class ="container">
+    <div class = "row">
+        <h1> Live Monitor </h1>
+    </div>
+    <div class = "row">
+        <h2> Our Clients status </h2>
+    </div>
+    <div class="info">
+        <table width="200">
+            <tr align="center" style="client" th:each = "clientName: ${clientkeys}">
+                <th height="20px" th:text = "${clientName}"></th>
+                <td width="10px"><img
+                        th:src = "${clients.get(clientName)}"
+                        alt="" border=3 height=30 width=30/></td>
+            </tr>
+        </table>
+    </div>
+    <div class="info2">
+        <div class="sortable">
+            <table id = "callstable" class = "table table-striped table-bordered">
+                <thead class = "table-dark">
+                <tr>
+                    <th onclick="sortTable(0)"> Customer Number</th>
+                    <th onclick="sortTable(1)"> Client Number</th>
+                    <th onclick="sortTable(2)"> Duration </th>
+                    <th onclick="sortTable(3)"> QueueTime </th>
+                    <th onclick="sortTable(4)"> Started at</th>
+                    <th onclick="sortTable(5)"> Ended at </th>
+                    <th onclick="sortTable(6)"> Status </th>
+                    <th> </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each = "MyCall: ${calls}">
+                    <td th:text = "${MyCall.getCustomerNumber() }"></td>
+                    <td th:text = "${MyCall.getClientNumber()}"></td>
+                    <td th:text = "${MyCall.getDuration()}"></td>
+                    <td th:text = "${MyCall.getQueueTime()}"></td>
+                    <td th:text = "${MyCall.getStarTime()}"></td>
+                    <td th:text = "${MyCall.getEndTime()}"></td>
+                    <td th:text = "${MyCall.getStatus()}"></td>
+                    <td><img
+                            th:src = "${MyCall.getSource()}"
+                            alt="" border=3 height=50 width=50/></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+
